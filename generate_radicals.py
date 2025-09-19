@@ -128,5 +128,5 @@ if __name__ == '__main__':
     client.connect(hostname, username, pkey=private_key)
     sftp = client.open_sftp()
 
-    # example usage
+    # Example usage
     split_and_generate_radicals(f'/insomnia001/depts/tekle_smith/users/MKL/project_3/p3_1/', sftp)

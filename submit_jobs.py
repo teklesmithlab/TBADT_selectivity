@@ -312,8 +312,8 @@ if __name__ == '__main__':
     # Connect to the remote server with passkey
     client.connect(hostname, username, pkey=private_key)
 
-    # example usage - submit xtb and goat calculations
+    # Example usage - submit xtb and goat calculations
     submit_xtb_and_goat_calculations(f'/insomnia001/depts/tekle_smith/users/MKL/project_2', f'p2_11', 'p2_11.xyz', client)
 
-    # example usage - submit SOMO and electrophilicity calculations
+    # Example usage - submit SOMO and electrophilicity calculations
     submit_SOMO_and_electrophilicity_calculations(f'/insomnia001/depts/tekle_smith/users/MKL/project_2', f'p2_1', [9, 10], client)

@@ -22,7 +22,7 @@ def get_buried_volume(local_xyz_file_dir, atom_no, radius=3.5):
 
 if __name__ == '__main__':
 
-    # Example: analyze buried volume for atoms at various radii
+    # Example usage: analyze buried volume for atoms at various radii
     atom_indices = [1, 2, 3, 4]  # atom indices
     radii = np.arange(1.5, 4.4, 0.1) # radii to test
 
