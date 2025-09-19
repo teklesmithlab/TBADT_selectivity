@@ -255,5 +255,5 @@ if __name__ == '__main__':
     client.connect(hostname, username, pkey=private_key)
     sftp = client.open_sftp()
 
-    # Example usage
+    # example usage
     print(read_philicity('/insomnia001/depts/tekle_smith/users/MKL/project_3/p3_3/', 20, sftp))
