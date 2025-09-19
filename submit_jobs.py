@@ -309,7 +309,7 @@ if __name__ == '__main__':
     client = paramiko.SSHClient()
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
-    # Connect to the remote server
+    # Connect to the remote server with passkey
     client.connect(hostname, username, pkey=private_key)
 
     # example usage - submit xtb and goat calculations
