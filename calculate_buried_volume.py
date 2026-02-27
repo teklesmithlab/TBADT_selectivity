@@ -14,7 +14,7 @@ def get_buried_volume(local_xyz_file_dir, atom_no, radius=3.5):
     # Create DBSTEP object
     mol = db.dbstep(local_xyz_file_dir, atom1=atom_no, r=radius, vshell=0.5)
 
-    # extract volume data
+    # extract volume raw_data
     percent_buried_volume = mol.bur_vol
     buried_shell = mol.bur_shell
 
@@ -26,7 +26,7 @@ if __name__ == '__main__':
     atom_indices = [1, 2, 3, 4]  # atom indices
     radii = np.arange(1.5, 4.4, 0.1) # radii to test
 
-    # Initialize a dictionary to collect data
+    # Initialize a dictionary to collect raw_data
     data = {radius: [] for radius in radii}
 
     for i in range(len(atom_indices)):
@@ -39,4 +39,4 @@ if __name__ == '__main__':
     df = pd.DataFrame(data, index=atom_indices)
     df.index.name = 'Atom Index'
 
-    df.to_csv('data/buried_volumes.csv')
+    df.to_csv('raw_data/buried_volumes.csv')

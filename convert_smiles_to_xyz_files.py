@@ -95,4 +95,4 @@ if __name__ == '__main__':
     sftp = client.open_sftp()
 
     # Example usage
-    convert_smiles_to_xyzs('data/SMILES.csv', '/insomnia001/depts/tekle_smith/users/MKL/project_2', 'local_xyz_root_directory', 'p2', 11, sftp)
+    convert_smiles_to_xyzs('raw_data/SMILES.csv', '/insomnia001/depts/tekle_smith/users/MKL/project_2', 'local_xyz_root_directory', 'p2', 11, sftp)

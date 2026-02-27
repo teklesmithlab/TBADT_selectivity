@@ -79,8 +79,8 @@ def read_hirshfeld_charge(file_directory, atom_number, sftp):
         print("HIRSHFELD ANALYSIS section not found.")
         return None, None
 
-    # Skip the header and find where the atom data starts
-    hirshfeld_data_start = start + 6  # The data starts 6 lines after 'HIRSHFELD ANALYSIS'
+    # Skip the header and find where the atom raw_data starts
+    hirshfeld_data_start = start + 6  # The raw_data starts 6 lines after 'HIRSHFELD ANALYSIS'
 
     # Locate and extract charges
     for line in lines[hirshfeld_data_start:]:
