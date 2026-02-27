@@ -5,7 +5,7 @@ def read_mulliken_and_loewdin_charges(file_directory, atom_number, sftp):
     uses sftp to open the specified file on a remote cluster and reads the mulliken and loewdin charges for a specified atom.
     :param file_directory: .out file directory. ex: '/insomnia001/home/mkl2180/2:18/substrates/substrate_1/DFT_elec_substrate_1.out'
     :param atom_number: atomic number to extract charges for. ex: 8
-    :param sftp: open SSH session variable.
+    :param sftp: open SSH session variable
     :return: mulliken, lowdin values for the specified atom.
     """
 
