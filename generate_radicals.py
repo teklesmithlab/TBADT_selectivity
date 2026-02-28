@@ -1,17 +1,19 @@
 import os
 import paramiko
 
-def split_and_generate_radicals(folder_directory, sftp):
+def split_and_generate_radicals(root_directory, secondary_directory, client):
     """
     takes a goat file containing conformer xyz information, splits into different conformers in different root_directories,
     then generates a radical at each hydrogen of each conformer. limited to 10 conformers for speed.
     :param folder_directory: directory of the root_directory where the goat ensemble file exists. ex: '/insomnia001/home/mkl2180/2:18/substrates/substrate_1'
-    :param sftp: open SSH session variable.
+    :param client: open SSH session variable.
     :return: conformer count (< 10), also splits the goat ensemble file into different conformers then splits those conformers into radicals.
     """
 
-    xyz_file_dir = f'{folder_directory}/goat.finalensemble.xyz'
-    cluster_file_dir = f'{folder_directory}/conformers'
+    sftp = client.open_sftp()
+
+    xyz_file_dir = f'{root_directory}/{secondary_directory}/goat.finalensemble.xyz'
+    cluster_file_dir = f'{root_directory}/{secondary_directory}/conformers'
 
     try:
         # Open the .xyz file on the remote cluster
@@ -129,4 +131,4 @@ if __name__ == '__main__':
     sftp = client.open_sftp()
 
     # Example usage
-    split_and_generate_radicals(f'/insomnia001/depts/tekle_smith/users/MKL/project_3/p3_1/', sftp)
+    split_and_generate_radicals(f'/insomnia001/depts/tekle_smith/users/MKL/project_1/', 'substrate_1', client)

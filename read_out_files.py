@@ -255,5 +255,19 @@ if __name__ == '__main__':
     client.connect(hostname, username, pkey=private_key)
     sftp = client.open_sftp()
 
-    # Example usage
-    print(read_philicity('/insomnia001/depts/tekle_smith/users/MKL/project_3/p3_3/', 20, sftp))
+    # closed-shell molecule properties
+    mulliken_charges, loewdin_charges = read_mulliken_and_loewdin_charges(
+        '/insomnia001/depts/tekle_smith/users/MKL/project_1/substrate_1/DFT_elec_substrate_1.out', 33, sftp)
+    hirshfeld_charges = read_hirshfeld_charge(
+        '/insomnia001/depts/tekle_smith/users/MKL/project_1/substrate_1/DFT_elec_substrate_1.out', 33, sftp)
+    nbo_charges = read_nbo_charge(
+        '/insomnia001/depts/tekle_smith/users/MKL/project_1/substrate_1/DFT_elec_substrate_1.out', 33, sftp)
+    print(
+        f"Mulliken charges: {mulliken_charges}, Loewdin charges: {loewdin_charges}, Hirshfeld charges: {hirshfeld_charges}, NBO charges: {nbo_charges}")
+
+    # open-shell radical properties
+    philicity = read_philicity('/insomnia001/depts/tekle_smith/users/MKL/project_1/substrate_1/', 33, sftp)
+    somo_energy = read_somo('/insomnia001/depts/tekle_smith/users/MKL/project_1/substrate_1/DFT_elec_33H_radical.out',
+                            sftp)
+    print(f"Philicity: {philicity}, SOMO energy: {somo_energy}")
+

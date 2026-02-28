@@ -32,7 +32,7 @@ if __name__ == '__main__':
     for i in range(len(atom_indices)):
         print(f"Processing H atom index: {atom_indices[i]}")
         for radius in radii:
-            vbur, shellbur = get_buried_volume('xyz_files/p2_11.xyz', atom_indices[i], radius=radius)
+            vbur, shellbur = get_buried_volume('local_xyz_directory/substrate_1.xyz', atom_indices[i], radius=radius)
             data[radius].append(vbur)
 
     # Create DataFrame where rows are hydrogens and columns are radii

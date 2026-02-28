@@ -33,18 +33,21 @@ def save_mol_to_xyz(RDKit_molecule, file_directory):
     print(f'Converted SMILES to {file_directory}')
 
 def convert_smiles_to_xyzs(local_file_directory, cluster_file_directory, local_folder_directory,
-                                         xyz_file_name, xyz_file_number, sftp):
+                                         xyz_base_name, xyz_number, client):
     """
     Convert SMILES strings from a text file on a local file directory to 3D geometry in .xyz file format on a
     remote directory using RDKit.
-    :param local_file_directory: Local file path to text file with smiles strings
+    :param local_file_directory: Local file path to text file with smiles.csv strings
     :param cluster_file_directory: Remote directory on the cluster to save the .xyz files
     :param local_folder_directory: Local directory to temporarily save the .xyz files before uploading
-    :param xyz_file_name: Desired name of the new xyz file, all xyz files will have this same root name. ex: 'substrate'.
-    :param xyz_file_number: Desired number of the new xyz file, the SMILES strings in the text file will start  ex: '10' numbering with this
-    :param sftp: SSH private key for authentication
+    :param xyz_base_name: Desired name of the new xyz file, all xyz files will have this same root name. ex: 'substrate'.
+    :param xyz_number: Desired number of the new xyz file, the SMILES strings in the text file will start  ex: '10' numbering with this
+    :param client: open SSH variable
     :return: None, converts the SMILES from the local directory to xyz files on a cluster directory.
     """
+
+    # open SSH session variable
+    sftp = client.open_sftp()
 
     # Ensure the output directory exists on the local machine
     os.makedirs(local_folder_directory, exist_ok=True)
@@ -58,7 +61,7 @@ def convert_smiles_to_xyzs(local_file_directory, cluster_file_directory, local_f
 
         # Ensure the remote output directory exists
         try:
-            cluster_xyz_file_directory = f'{cluster_file_directory}/{xyz_file_name}_{i+xyz_file_number}'
+            cluster_xyz_file_directory = f'{cluster_file_directory}/{xyz_base_name}_{i+xyz_number}'
             print(cluster_xyz_file_directory)
 
             sftp.mkdir(cluster_xyz_file_directory) # Create a new directory for each molecule
@@ -95,4 +98,4 @@ if __name__ == '__main__':
     sftp = client.open_sftp()
 
     # Example usage
-    convert_smiles_to_xyzs('raw_data/SMILES.csv', '/insomnia001/depts/tekle_smith/users/MKL/project_2', 'local_xyz_root_directory', 'p2', 11, sftp)
+    convert_smiles_to_xyzs('raw_data/smiles.csv', '/insomnia001/depts/tekle_smith/users/MKL/project_1/', 'local_xyz_directory', 'substrate', 1, client)

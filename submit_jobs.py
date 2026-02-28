@@ -121,6 +121,7 @@ def create_goat_inp_file(root_directory, secondary_directory, run_file, xyz_file
 
         # Write the script content to a file on the remote server
         sftp = client.open_sftp()
+
         with sftp.file(remote_script_path, 'w') as remote_file:
             remote_file.write(script_content)
 
@@ -313,7 +314,14 @@ if __name__ == '__main__':
     client.connect(hostname, username, pkey=private_key)
 
     # Example usage - submit xtb and goat calculations
-    submit_xtb_and_goat_calculations(f'/insomnia001/depts/tekle_smith/users/MKL/project_2', f'p2_11', 'p2_11.xyz', client)
+    submit_xtb_and_goat_calculations(f'/insomnia001/depts/tekle_smith/users/MKL/project_1/', 'substrate_1', 'substrate_1.xyz', client)
 
     # Example usage - submit SOMO and electrophilicity calculations
-    submit_SOMO_and_electrophilicity_calculations(f'/insomnia001/depts/tekle_smith/users/MKL/project_2', f'p2_1', [9, 10], client)
+    submit_SOMO_and_electrophilicity_calculations(f'/insomnia001/depts/tekle_smith/users/MKL/project_1/', f'substrate_1', [33, 18, 23], client)
+
+    # Example usage - submit atomic charge calculations for the closed-shell molecule
+    submit_atomic_charge_calculations('/insomnia001/depts/tekle_smith/users/MKL/project_1/', 'substrate_1', client)
+
+
+
+
