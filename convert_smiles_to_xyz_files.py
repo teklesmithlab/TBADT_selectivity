@@ -32,14 +32,14 @@ def save_mol_to_xyz(RDKit_molecule, file_directory):
 
     print(f'Converted SMILES to {file_directory}')
 
-def convert_smiles_to_xyzs(local_file_directory, cluster_file_directory, local_folder_directory,
-                                         xyz_base_name, xyz_number, client):
+def convert_smiles_to_xyzs(local_smiles_file, local_folder_directory, root_directory, secondary_directory, xyz_base_name, xyz_number, client):
     """
     Convert SMILES strings from a text file on a local file directory to 3D geometry in .xyz file format on a
     remote directory using RDKit.
-    :param local_file_directory: Local file path to text file with smiles.csv strings
-    :param cluster_file_directory: Remote directory on the cluster to save the .xyz files
+    :param local_smiles_file: Local file path to text file with smiles.csv strings
     :param local_folder_directory: Local directory to temporarily save the .xyz files before uploading
+    :param root_directory: Remote directory on the cluster to save the .xyz files
+    :param secondary_directory: Remote subdirectory on the cluster to save the .xyz files
     :param xyz_base_name: Desired name of the new xyz file, all xyz files will have this same root name. ex: 'substrate'.
     :param xyz_number: Desired number of the new xyz file, the SMILES strings in the text file will start  ex: '10' numbering with this
     :param client: open SSH variable
@@ -53,7 +53,7 @@ def convert_smiles_to_xyzs(local_file_directory, cluster_file_directory, local_f
     os.makedirs(local_folder_directory, exist_ok=True)
 
     # Read SMILES strings from the file
-    with open(local_file_directory, 'r') as file:
+    with open(local_smiles_file, 'r') as file:
         smiles_strings = file.readlines()
 
     # Iterate through each SMILES string and convert to XYZ
@@ -61,23 +61,23 @@ def convert_smiles_to_xyzs(local_file_directory, cluster_file_directory, local_f
 
         # Ensure the remote output directory exists
         try:
-            cluster_xyz_file_directory = f'{cluster_file_directory}/{xyz_base_name}_{i+xyz_number}'
+            cluster_xyz_file_directory = f'{root_directory}/{secondary_directory}/{xyz_base_name}_{i+xyz_number}'
             print(cluster_xyz_file_directory)
 
             sftp.mkdir(cluster_xyz_file_directory) # Create a new directory for each molecule
 
         except IOError:
-            print(f"Directory {cluster_file_directory} already exists on the cluster.")
+            print(f"Directory {root_directory}/{secondary_directory} already exists on the cluster.")
 
         smiles = smiles.strip()  # Remove any surrounding whitespace and newlines
         RDKit_molecule = Chem.MolFromSmiles(smiles)
 
         if RDKit_molecule: # Check if the molecule was successfully created
-            local_xyz_root_directory_directory = os.path.join(local_folder_directory, f'{xyz_file_name}_{i+xyz_file_number}.xyz')
+            local_xyz_root_directory_directory = os.path.join(local_folder_directory, f'{xyz_base_name}_{i+xyz_number}.xyz')
             save_mol_to_xyz(RDKit_molecule, local_xyz_root_directory_directory) # save to local directory first
 
             # Upload the file to the cluster
-            remote_xyz_root_directory = os.path.join(cluster_file_directory, f'{xyz_file_name}_{i+xyz_file_number}.xyz')
+            remote_xyz_root_directory = os.path.join(f'{root_directory}/{secondary_directory}', f'{xyz_base_name}_{i+xyz_number}.xyz')
 
             sftp.put(local_xyz_root_directory_directory, remote_xyz_root_directory)
 
@@ -94,8 +94,6 @@ if __name__ == '__main__':
 
     # Connect to the remote server
     client.connect(hostname, username, pkey=private_key)
-
-    sftp = client.open_sftp()
 
     # Example usage
     convert_smiles_to_xyzs('raw_data/smiles.csv', '/insomnia001/depts/tekle_smith/users/MKL/project_1/', 'local_xyz_directory', 'substrate', 1, client)

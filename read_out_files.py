@@ -223,6 +223,7 @@ def read_nbo_charge(file_directory, atom_number, sftp):
     :param sftp: open SSH session variable.
     :return: nbo charge value for the specified atom.
     """
+
     with sftp.open(file_directory, 'r') as f:
         lines = f.readlines()
 
@@ -253,6 +254,7 @@ if __name__ == '__main__':
 
     # Connect to the remote server
     client.connect(hostname, username, pkey=private_key)
+
     sftp = client.open_sftp()
 
     # closed-shell molecule properties

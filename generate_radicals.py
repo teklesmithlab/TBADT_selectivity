@@ -5,7 +5,8 @@ def split_and_generate_radicals(root_directory, secondary_directory, client):
     """
     takes a goat file containing conformer xyz information, splits into different conformers in different root_directories,
     then generates a radical at each hydrogen of each conformer. limited to 10 conformers for speed.
-    :param folder_directory: directory of the root_directory where the goat ensemble file exists. ex: '/insomnia001/home/mkl2180/2:18/substrates/substrate_1'
+    :param root_directory: directory of the root_directory where the goat ensemble file exists. ex: '/insomnia001/home/mkl2180/2:18/substrates/'
+    :param secondary_directory: directory of the goat ensemble file within the root_directory. ex: 'substrate_1'
     :param client: open SSH session variable.
     :return: conformer count (< 10), also splits the goat ensemble file into different conformers then splits those conformers into radicals.
     """
@@ -13,7 +14,7 @@ def split_and_generate_radicals(root_directory, secondary_directory, client):
     sftp = client.open_sftp()
 
     xyz_file_dir = f'{root_directory}/{secondary_directory}/goat.finalensemble.xyz'
-    cluster_file_dir = f'{root_directory}/{secondary_directory}/conformers'
+    cluster_file_dir = f'{root_directory}/{secondary_directory}/conformers/'
 
     try:
         # Open the .xyz file on the remote cluster
@@ -85,8 +86,8 @@ def split_and_generate_radicals(root_directory, secondary_directory, client):
                 f.write(content)
             print(f"Saved radical to {remote_file_path}")
 
-        xyz_file_dir = f'{folder_directory}/conformers/conformer_{conformer}/conformer_{conformer}.xyz'
-        conformer_root_directory_dir = f'{folder_directory}/conformers/conformer_{conformer}'
+        xyz_file_dir = f'{root_directory}/conformers/conformer_{conformer}/conformer_{conformer}.xyz'
+        conformer_root_directory_dir = f'{root_directory}/conformers/conformer_{conformer}'
 
         # Ensure the remote output directory exists
         try:
@@ -128,7 +129,6 @@ if __name__ == '__main__':
 
     # Connect to the remote server
     client.connect(hostname, username, pkey=private_key)
-    sftp = client.open_sftp()
 
     # Example usage
     split_and_generate_radicals(f'/insomnia001/depts/tekle_smith/users/MKL/project_1/', 'substrate_1', client)

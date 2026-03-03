@@ -12,5 +12,6 @@ A Python toolkit for automating and analyzing DFT-based calculations for the fol
 - single point calculations for atomic charges, orbital energies, and philicities (submit_jobs.py)
 - functions for iteratively reading output files and extracting relevant data to further automate analysis (read_out_files.py)
 - source code for calculating buried volumes with DBSTEP (calculate_buried_volume.py)
+- training and validation of a logistic regression model for functionalization prediction (logistic_regression_analysis.py)
 
 for questions, contact Mimi Lavin (mkl2180@columbia.edu) 

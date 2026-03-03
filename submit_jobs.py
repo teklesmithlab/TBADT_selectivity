@@ -298,7 +298,7 @@ def submit_atomic_charge_calculations(root_directory, secondary_directory, clien
     create_sh_file(root_directory, secondary_directory, f'DFT_elec.sh', f'DFT_elec.inp', '$ORCA_PATH/orca', client)
 
     job_ID = run_sh_file(root_directory, secondary_directory, f'DFT_geom.sh', client)
-    run_sh_file(root_directory, secondary_directory, f'DFT_elec_ma_def2_TZVP.sh', client, job_ID)
+    run_sh_file(root_directory, secondary_directory, f'DFT_elec.sh', client, job_ID)
 
     print('submitted NBO charge calculation')
 

@@ -41,6 +41,7 @@ y_train = literature_molecules[label_column]
 x_val = validation_molecules[feature_columns]
 y_val = validation_molecules[label_column]
 
+# build the logistic regression model
 model = Pipeline(
     steps=[
         ("scaler", StandardScaler()),
@@ -78,7 +79,7 @@ print(results_df.to_string(index=False))
 # now for coefficient analysis
 coefs = model.named_steps["clf"].coef_.ravel()
 
-# take the natural exponent of coefficients
+# take the natural exponent of coefficients to get their odds ratios
 importance = (coefs ** 2) / np.sum(coefs ** 2)
 
 importance_df = (
@@ -127,6 +128,7 @@ for group_name, feats in feature_groups.items():
         mask, "Percent Importance"
     ].sum()
 
+# group features by mechanistic category and sum their importance
 group_importance_df = (
     pd.DataFrame(
         list(group_importance.items()),
